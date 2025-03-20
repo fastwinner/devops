@@ -1,0 +1,38 @@
+services:
+  jenkins:
+    container_name: jenkins_server
+    image: jenkins_server
+    ports :
+      - 8080:8080
+    build:
+      context: ./
+      dockerfile: jenkinsDockerfile
+  ansible:
+    container_name: ansible_server
+    image: ansible_server
+    build:
+      context: ./
+      dockerfile: ansibleDockerfile
+  sonarqube:
+    container_name: sonarqube_server
+    image: sonarqube:lts-community
+    ports:
+      - 9000:9000
+  prometheus:
+    container_name: prometheus_server
+    image: prom/prometheus:v2.53.1
+    ports: 
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  nodeexporter:
+    container_name: nodeexporter_server
+    image: prom/node-exporter
+    ports: 
+      - 9100:9100
+  grafana:
+    container_name: grafana_server
+    image: grafana/grafana 
+    ports: 
+      - 3000:3000
+
